@@ -122,5 +122,11 @@ if(NOT ANDROID AND NOT IOS)
     EXPORT ONNXTargets DESTINATION lib)
 endif()
 
+set(FOXI_INCLUDE_DIRS "${FOXI_ROOT}" "${CMAKE_CURRENT_BINARY_DIR}")
+get_directory_property(hasParent PARENT_DIRECTORY)
+if(hasParent)
+  set(FOXI_INCLUDE_DIRS ${FOXI_INCLUDE_DIRS} PARENT_SCOPE)
+endif()
+
 include(cmake/summary.cmake)
 onnx_print_configuration_summary()
