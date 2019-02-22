@@ -99,7 +99,7 @@ target_include_directories(foxi_dummy PRIVATE
   $<BUILD_INTERFACE:${FOXI_ROOT}>
   $<INSTALL_INTERFACE:include>)
 target_link_libraries(foxi_dummy PUBLIC foxi ${CMAKE_DL_LIBS})
-target_compile_definitions(foxi_dummy PRIVATE FOXI_BUILD_LIBRARY=TRUE)
+target_compile_definitions(foxi_dummy PRIVATE ONNXIFI_BUILD_LIBRARY=TRUE)
 if(MSVC)
   add_msvc_runtime_flag(foxi_dummy)
 endif()
