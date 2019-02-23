@@ -2,8 +2,8 @@
  * ONNX wrapper api discovers vendor-specific implementations installed in
  * the system and exposes them under a single interface.
  *
- *
- *
+ * 
+ * 
  */
 
 #include <stdlib.h>
@@ -24,17 +24,17 @@
 #include <foxi/onnxifi_loader.h>
 
 #if defined(_WIN32)
-#define ONNXIFI_FILENAME_WILDCARD L"\\foxi-*.dll"
+#define ONNXIFI_FILENAME_WILDCARD L"\\onnxifi-*.dll"
 #define ONNXIFI_FILENAME_WILDCARD_LENGTH 14
 #elif defined(__APPLE__)
 /* Minimum filename: "libonnxifi-?.dylib" */
 #define ONNXIFI_FILENAME_MIN 18
-#define ONNXIFI_FILENAME_PREFIX "foxi-"
+#define ONNXIFI_FILENAME_PREFIX "libonnxifi-"
 #define ONNXIFI_FILENAME_SUFFIX ".dylib"
 #else
 /* Minimum filename: "libonnxifi-?.so" */
 #define ONNXIFI_FILENAME_MIN 15
-#define ONNXIFI_FILENAME_PREFIX "foxi-"
+#define ONNXIFI_FILENAME_PREFIX "libonnxifi-"
 #define ONNXIFI_FILENAME_SUFFIX ".so"
 #endif
 
