@@ -37,13 +37,13 @@ typedef struct onnxTraceEventList {
   /**
    * The number of events in traceEvents.
    */
-  int32_t numEvents;
+  uint64_t numEvents;
 
   /**
-   * A list of of onnxTraceEvents, the length of which is indicated by
-   * numEvents.
+   * A pointer to an array of pointers to onnxTraceEvents allocated by the onnx
+   * backend, the length of which is indicated by numEvents.
    */
-  onnxTraceEvent *traceEvents;
+  onnxTraceEvent **traceEvents;
 } onnxTraceEventList;
 
 /**
