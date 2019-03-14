@@ -191,6 +191,12 @@ ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI onnxSetIOAndRunGraph(
     const onnxTensorDescriptorV1* inputDescriptors,
     uint32_t outputsCount,
     const onnxTensorDescriptorV1* outputDescriptors,
-    onnxMemoryFenceV1* outputFence) {
+    onnxMemoryFenceV1* outputFence,
+    onnxTraceEventList* traceEvents) {
+  return ONNXIFI_STATUS_SUCCESS;
+}
+
+ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI
+  onnxReleaseTraceEvents(onnxTraceEventList* traceEvents) {
   return ONNXIFI_STATUS_SUCCESS;
 }
