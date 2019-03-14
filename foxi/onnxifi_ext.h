@@ -7,6 +7,45 @@
 extern "C" {
 #endif
 
+typedef struct onnxTraceEvent {
+  /**
+   * Human readable name for the event, will be used to match up begin and end
+   * of an event duration.
+   */
+  const char *eventName;
+
+  /**
+   * Type of the event, can be one of the following:
+   * 'B': Beginning of event
+   * 'E': End of event
+   */
+  char eventType;
+
+  /**
+   * Time of the event, in milliseconds since epoch.
+   */
+  uint64_t timestamp;
+
+  /**
+   * Thread Id for this event. All events with the same tid will be grouped
+   * together in the trace.
+   */
+  uint32_t tid;
+} onnxTraceEvent;
+
+typedef struct onnxTraceEventList {
+  /**
+   * The number of events in traceEvents.
+   */
+  uint64_t numEvents;
+
+  /**
+   * A pointer to an array of pointers to onnxTraceEvents allocated by the onnx
+   * backend, the length of which is indicated by numEvents.
+   */
+  onnxTraceEvent **traceEvents;
+} onnxTraceEventList;
+
 /**
  * Generic ONNXIFI extension function pointer.
  *
@@ -109,6 +148,11 @@ typedef ONNXIFI_CHECK_RESULT onnxStatus
  *                           of the call. Reusable synchronization objects are
  *                           generally initialized by the user prior to the
  *                           call.
+ * @param[out] traceEvents - optional pointer to onnxTraceEventList that can be
+ *                           NULL. If non-NULL then the backend is requested to
+ *                           populate the onnxTraceEventList with trace events
+ *                           describing the timeline of events that occurred
+ *                           while running the graph.
  *
  * @retval ONNXIFI_STATUS_SUCCESS The function call succeeded and the all graph
  *                                inputs and outputs were matched to a memory
@@ -217,7 +261,26 @@ ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI onnxSetIOAndRunGraph(
     const onnxTensorDescriptorV1* inputDescriptors,
     uint32_t outputsCount,
     const onnxTensorDescriptorV1* outputDescriptors,
-    onnxMemoryFenceV1* outputFence);
+    onnxMemoryFenceV1* outputFence,
+    onnxTraceEventList* traceEvents);
+
+/**
+ * Release the onnxTraceEvents contained in traceEvents.
+ *
+ * @param traceEvents - a list of onnxTraceEvents to be released. 
+ *
+ * @retval ONNXIFI_STATUS_SUCCESS The function call succeeded and the
+ *                                onnxTraceEvents resources were released to the
+ *                                operating system.
+ * @retval ONNXIFI_STATUS_INVALID_POINTER The function call failed because
+ *                                        onnxTraceEventList pointer is NULL.
+ * @retval ONNXIFI_STATUS_INTERNAL_ERROR The function call failed because the
+ *                                       backend experienced an unrecovered
+ *                                       internal error.
+ */
+
+ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI
+  onnxReleaseTraceEvents(onnxTraceEventList* traceEvents);
 
 #ifdef __cplusplus
 } /* extern "C" */
