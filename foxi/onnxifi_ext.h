@@ -111,7 +111,12 @@ typedef ONNXIFI_CHECK_RESULT onnxStatus
     const onnxTensorDescriptorV1* inputDescriptors,
     uint32_t outputsCount,
     const onnxTensorDescriptorV1* outputDescriptors,
-    onnxMemoryFenceV1* outputFence);
+    onnxMemoryFenceV1* outputFence,
+    onnxTraceEventList* traceEvents);
+    
+typedef ONNXIFI_CHECK_RESULT onnxStatus
+  (ONNXIFI_ABI* onnxReleaseTraceEventsFunction)(
+    onnxTraceEventList* traceEvents);
 
 /**
  * A combination of onnxSetIO and onnxRunGraph, functionally equals to first run
