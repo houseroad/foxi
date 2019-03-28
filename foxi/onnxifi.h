@@ -868,7 +868,7 @@ typedef struct onnxTensorDescriptorV1 {
    * If it is a quantized tensor, the value should be set to 1.
    * By default it should be set to 0.
    */
-  unsigned char is_quantized;
+  uint8_t is_quantized;
   /**
    * Quantized tensor scale info.
    * For non-quantized tensor, this scale is not valid.
