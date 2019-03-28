@@ -864,6 +864,22 @@ typedef struct onnxTensorDescriptorV1 {
    */
   const uint64_t* shape;
   /**
+   * A flag indicates whether this tensor is a quantized tensor or not.
+   * If it is a quantized tensor, the value should be set to 1.
+   * By default it should be set to 0.
+   */
+  unsigned char is_quantized;
+  /**
+   * Quantized tensor scale info.
+   * For non-quantized tensor, this scale is not valid.
+   */
+  float scale;
+  /**
+   * Quantized tensor bias info.
+   * For non-quantized tensor, this bias is not valid.
+   */
+  int32_t bias;
+  /**
    * Pointers to tensor data.
    *
    * Interpretation depends on memoryType:
