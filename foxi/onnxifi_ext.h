@@ -7,6 +7,11 @@
 extern "C" {
 #endif
 
+/**
+ * Compile the graph with tracing events before and after all nodes enabled.
+ */
+#define ONNXIFI_GRAPH_PROPERTY_AUTO_INSTRUMENT_NODES 1
+
 typedef struct onnxTraceEvent {
   /**
    * Human readable name for the event, will be used to match up begin and end
