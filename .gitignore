@@ -54,3 +54,7 @@ build/
 
 # more
 *.swp
+.vim/
+.idea/
+.vscode/
+.DS_Store

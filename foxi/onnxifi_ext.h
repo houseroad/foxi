@@ -27,7 +27,7 @@ typedef struct onnxTraceEvent {
   char eventType;
 
   /**
-   * Time of the event, in milliseconds since epoch.
+   * Time of the event, in microsecond since epoch.
    */
   uint64_t timestamp;
 
