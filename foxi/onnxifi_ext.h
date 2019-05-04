@@ -12,17 +12,24 @@ extern "C" {
  */
 #define ONNXIFI_GRAPH_PROPERTY_AUTO_INSTRUMENT_NODES 1
 
+/**
+ * Size in characters of the name field of onnxTraceEvent.
+ */
+#define ONNXIFI_TRACE_EVENT_NAME_SIZE 32
+
 typedef struct onnxTraceEvent {
   /**
    * Human readable name for the event, will be used to match up begin and end
    * of an event duration.
    */
-  const char *eventName;
+  char eventName[ONNXIFI_TRACE_EVENT_NAME_SIZE + 1];
 
   /**
    * Type of the event, can be one of the following:
    * 'B': Beginning of event
    * 'E': End of event
+   * 'I': Instantaneous event (no duration).
+   * 'X': Complete event (start + duration).
    */
   char eventType;
 
@@ -36,6 +43,11 @@ typedef struct onnxTraceEvent {
    * together in the trace.
    */
   uint32_t tid;
+
+  /**
+   * For complete events, the duration of the event, in microseconds.
+   */
+  uint64_t duration;
 } onnxTraceEvent;
 
 typedef struct onnxTraceEventList {
