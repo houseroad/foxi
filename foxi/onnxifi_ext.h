@@ -304,6 +304,56 @@ ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI onnxSetIOAndRunGraph(
 ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI
   onnxReleaseTraceEvents(onnxTraceEventList* traceEvents);
 
+/**
+ * Wait until an ONNXIFI event transitions to signalled state or for a specified
+ * number of milliseconds, whichever occurs first. Upon returning, if return
+ * value is ONNXIFI_STATUS_SUCCESS then eventState will be set to the state
+ * of the event. If this function returned due to timeout then eventState will
+ * be ONNXIFI_EVENT_STATE_NONSIGNALLED. If this function returns due to the
+ * event being signalled then eventState is ONNXIFI_EVENT_STATE_SIGNALLED
+ * and eventStatus will be set to a status representative of the event that is
+ * being waited on.
+ *
+ * @param event - event handle created by onnxRunGraph. While it is technically
+ *                possible to use this function to events created by
+ *                onnxInitEvent, this is not the intended use-case.
+ * 
+ * @param timeoutMs - The number of milliseconds to wait on the event before
+ *                    returning. If timeoutMs is 0 then this function will block
+ *                    on the event without timing out similar to onnxWaitEvent.
+ *
+ * @param eventState - The state of the event upon returning. If a timeout
+ *                     occurred then this will be
+ *                     ONNXIFI_EVENT_STATE_NONSIGNALLED, otherwise if the 
+ *                     function returns ONNXIFI_STATUS_SUCCESS and no timeout
+ *                     occurred this will be ONNXIFI_EVENT_STATE_SIGNALLED.
+ * 
+ * @param eventStatus - A status that can be associated with the event when
+ *                      it is signalled. This is only guaranteed to be set if
+ *                      the eventState is ONNXIFI_EVENT_STATE_SIGNALLED. If
+ *                      the event was signalled by a method that doesn't support
+ *                      status signalling then eventStatus will be set to 
+ *                      ONNXIFI_STATUS_SUCCESS as a default.
+ *
+ * @retval ONNXIFI_STATUS_SUCCESS The function call succeeded and the function
+ *                                returned because event transitioned to
+ *                                signalled state or the timeout was hit.
+ * @retval ONNXIFI_STATUS_INVALID_EVENT The function call failed because event
+ *                                      is not an ONNXIFI event handle.
+ * @retval ONNXIFI_STATUS_BACKEND_UNAVAILABLE The function call failed because
+ *                                            the backend was disconnected or
+ *                                            uninstalled from the system.
+ * @retval ONNXIFI_STATUS_INTERNAL_ERROR The function call failed because the
+ *                                       implementation experienced an
+ *                                       unrecovered internal error.
+ */
+ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI
+  onnxWaitEventFor(
+    onnxEvent event,
+    uint32_t timeoutMs,
+    onnxEventState* eventState,
+    onnxStatus* eventStatus);
+
 #ifdef __cplusplus
 } /* extern "C" */
 #endif

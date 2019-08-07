@@ -151,10 +151,11 @@ onnxReleaseGraph(onnxGraph graph) {
  * we have in this backend. It should be a subset of ALL_EXT_FUNCTION_LIST
  * in onnxifi_ext.h
  */
-const int extension_function_number = 3;
+const int extension_function_number = 4;
 const char* extension_function_list[] = {"onnxGetExtensionFunctionAddress",
                                          "onnxSetIOAndRunGraph",
-                                         "onnxReleaseTraceEvents"};
+                                         "onnxReleaseTraceEvents",
+                                         "onnxWaitEventFor"};
 
 ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI
 onnxGetExtensionFunctionAddress(
@@ -180,6 +181,9 @@ onnxGetExtensionFunctionAddress(
         case 2:
           *function = (onnxExtensionFunctionPointer)&onnxReleaseTraceEvents;
           break;
+        case 3:
+          *function = (onnxExtensionFunctionPointer)&onnxWaitEventFor;
+          break;
       }
     }
   }
@@ -203,5 +207,14 @@ ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI onnxSetIOAndRunGraph(
 
 ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI
   onnxReleaseTraceEvents(onnxTraceEventList* traceEvents) {
+  return ONNXIFI_STATUS_SUCCESS;
+}
+
+
+ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI
+onnxWaitEventFor(onnxEvent event,
+                 uint32_t timeoutMs,
+                 onnxEventState* eventState,
+                 onnxStatus* eventStatus) {
   return ONNXIFI_STATUS_SUCCESS;
 }
