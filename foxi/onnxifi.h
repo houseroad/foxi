@@ -887,6 +887,11 @@ typedef struct onnxTensorDescriptorV1 {
   const int32_t* biases;
   
   /**
+   * Whether this tensor is an offline tensor, which doesn't carry actual data.
+   */
+  uint8_t isOffline;
+
+  /**
    * Pointers to tensor data.
    *
    * Interpretation depends on memoryType:
@@ -1016,7 +1021,8 @@ typedef ONNXIFI_CHECK_RESULT onnxStatus
     const void* onnxModel,
     uint32_t weightsCount,
     const onnxTensorDescriptorV1* weightDescriptors,
-    onnxGraph* graph);
+    onnxGraph* graph,
+    void* deferredWeightReader);
 typedef ONNXIFI_CHECK_RESULT onnxStatus
   (ONNXIFI_ABI* onnxSetGraphIOFunction)(
     onnxGraph graph,
@@ -1607,6 +1613,9 @@ ONNXIFI_PUBLIC onnxStatus ONNXIFI_ABI
  * @param[out] graph - pointer to the opaque handle for the created ONNXIFI
  *                     graph. If the function fails, and this pointer is
  *                     non-NULL, the handle is initialized to NULL.
+ * @param[inout] deferredWeightReader - pointer to an opaque handle to populate
+ *                                      the offline tensors during backend
+ *                                      compilation time. Default is NULL.
  *
  * @retval ONNXIFI_STATUS_SUCCESS The function call succeeded and the model
  *                                graph was successfully initialized on the
@@ -1753,7 +1762,8 @@ ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI
     const void* onnxModel,
     uint32_t weightsCount,
     const onnxTensorDescriptorV1* weightDescriptors,
-    onnxGraph* graph);
+    onnxGraph* graph,
+    void* deferredWeightReader);
 
 /**
  * Set locations for inputs and outputs of an ONNXIFI graph.
