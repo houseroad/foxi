@@ -1022,6 +1022,7 @@ typedef ONNXIFI_CHECK_RESULT onnxStatus
     uint32_t weightsCount,
     const onnxTensorDescriptorV1* weightDescriptors,
     onnxGraph* graph,
+    uint32_t maxSeqLength,
     void* deferredWeightReader);
 typedef ONNXIFI_CHECK_RESULT onnxStatus
   (ONNXIFI_ABI* onnxSetGraphIOFunction)(
@@ -1763,6 +1764,7 @@ ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI
     uint32_t weightsCount,
     const onnxTensorDescriptorV1* weightDescriptors,
     onnxGraph* graph,
+    uint32_t maxSeqLength,
     void* deferredWeightReader);
 
 /**
