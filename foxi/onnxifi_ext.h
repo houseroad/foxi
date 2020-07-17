@@ -335,6 +335,14 @@ ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI
  *                      status signalling then eventStatus will be set to 
  *                      ONNXIFI_STATUS_SUCCESS as a default.
  *
+ * @param message - A preallocated message buffer to be filled with error 
+ *                  messages if any error has happened. Message is always null
+ *                  terminated.
+ *
+ * @param messageLength - At input, it carries the maximum size of the message
+ *                        buffer. At output, it carries the actual size of the
+ *                        message buffer. 
+ *
  * @retval ONNXIFI_STATUS_SUCCESS The function call succeeded and the function
  *                                returned because event transitioned to
  *                                signalled state or the timeout was hit.
@@ -347,12 +355,14 @@ ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI
  *                                       implementation experienced an
  *                                       unrecovered internal error.
  */
-ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI
-  onnxWaitEventFor(
+	
+ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI onnxWaitEventFor(
     onnxEvent event,
     uint32_t timeoutMs,
     onnxEventState* eventState,
-    onnxStatus* eventStatus);
+    onnxStatus* eventStatus,
+    char* message,
+    size_t* messageLength);
 
 #ifdef __cplusplus
 } /* extern "C" */
