@@ -693,6 +693,7 @@ typedef int32_t onnxBackendInfo;
  *     ONNXIFI_OPTIMIZATION_LOW_LATENCY
  *     ONNXIFI_OPTIMIZATION_LOW_POWER
  *     ONNXIFI_OPTIMIZATION_LOW_DELAY
+ *     ONNXIFI_OPTIMIZATION_AOT
  */
 #define ONNXIFI_BACKEND_PROPERTY_OPTIMIZATION 1
 /**
@@ -761,6 +762,12 @@ typedef int32_t onnxBackendInfo;
  * result.
  */
 #define ONNXIFI_OPTIMIZATION_LOW_DELAY 3
+
+/**
+ * Optimize graph representation and compilation using potentially
+ * longer-running ahead-of-time optimization.
+ */
+#define ONNXIFI_OPTIMIZATION_AOT 4
 
 /**
  * Log events which caused a failure in an ONNXIFI function call.
@@ -870,7 +877,7 @@ typedef struct onnxTensorDescriptorV1 {
   /**
    * This indicates how many quantization parameters this tensor has in the
    * scales and biases fields. If this tensor is not quantized then this is 0.
-   * This must be less than or equal to the size of the tensor in the 
+   * This must be less than or equal to the size of the tensor in the
    * quantizationAxis dimension. Note that quantization parameters will be
    * shared amongst equally sized groups along the quantizationAxis.
    */
@@ -885,7 +892,7 @@ typedef struct onnxTensorDescriptorV1 {
    * For non-quantized tensor, these biases are not valid and should not exist.
    */
   const int32_t* biases;
-  
+
   /**
    * Whether this tensor is an offline tensor, which doesn't carry actual data.
    */
