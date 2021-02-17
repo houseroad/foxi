@@ -130,7 +130,7 @@ typedef ONNXIFI_CHECK_RESULT onnxStatus
     const onnxTensorDescriptorV1* outputDescriptors,
     onnxMemoryFenceV1* outputFence,
     onnxTraceEventList* traceEvents);
-    
+
 typedef ONNXIFI_CHECK_RESULT onnxStatus
   (ONNXIFI_ABI* onnxReleaseTraceEventsFunction)(
     onnxTraceEventList* traceEvents);
@@ -289,7 +289,7 @@ ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI onnxSetIOAndRunGraph(
 /**
  * Release the onnxTraceEvents contained in traceEvents.
  *
- * @param traceEvents - a list of onnxTraceEvents to be released. 
+ * @param traceEvents - a list of onnxTraceEvents to be released.
  *
  * @retval ONNXIFI_STATUS_SUCCESS The function call succeeded and the
  *                                onnxTraceEvents resources were released to the
@@ -317,31 +317,31 @@ ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI
  * @param event - event handle created by onnxRunGraph. While it is technically
  *                possible to use this function to events created by
  *                onnxInitEvent, this is not the intended use-case.
- * 
+ *
  * @param timeoutMs - The number of milliseconds to wait on the event before
  *                    returning. If timeoutMs is 0 then this function will block
  *                    on the event without timing out similar to onnxWaitEvent.
  *
  * @param eventState - The state of the event upon returning. If a timeout
  *                     occurred then this will be
- *                     ONNXIFI_EVENT_STATE_NONSIGNALLED, otherwise if the 
+ *                     ONNXIFI_EVENT_STATE_NONSIGNALLED, otherwise if the
  *                     function returns ONNXIFI_STATUS_SUCCESS and no timeout
  *                     occurred this will be ONNXIFI_EVENT_STATE_SIGNALLED.
- * 
+ *
  * @param eventStatus - A status that can be associated with the event when
  *                      it is signalled. This is only guaranteed to be set if
  *                      the eventState is ONNXIFI_EVENT_STATE_SIGNALLED. If
  *                      the event was signalled by a method that doesn't support
- *                      status signalling then eventStatus will be set to 
+ *                      status signalling then eventStatus will be set to
  *                      ONNXIFI_STATUS_SUCCESS as a default.
  *
- * @param message - A preallocated message buffer to be filled with error 
+ * @param message - A preallocated message buffer to be filled with error
  *                  messages if any error has happened. Message is always null
  *                  terminated.
  *
  * @param messageLength - At input, it carries the maximum size of the message
  *                        buffer. At output, it carries the actual size of the
- *                        message buffer. 
+ *                        message buffer.
  *
  * @retval ONNXIFI_STATUS_SUCCESS The function call succeeded and the function
  *                                returned because event transitioned to
@@ -355,7 +355,7 @@ ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI
  *                                       implementation experienced an
  *                                       unrecovered internal error.
  */
-	
+
 ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI onnxWaitEventFor(
     onnxEvent event,
     uint32_t timeoutMs,
@@ -363,6 +363,55 @@ ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI onnxWaitEventFor(
     onnxStatus* eventStatus,
     char* message,
     size_t* messageLength);
+
+/**
+ * Provide a option name, get its value in string form.
+ * @param optionName - Name of the option
+ *
+ * @param optionValue - String value of the option
+ *
+ * @param optionValueLength - At input, it carries the maximum size of the
+ *                            message buffer.  At output, it arries the
+ *                            actual size of the message buffer.
+ *
+ * @retval ONNXIFI_STATUS_SUCCESS The function call succeeded and the function
+ *                                returned because event transitioned to
+ *                                signalled state or the timeout was hit.
+ * @retval ONNXIFI_STATUS_INVALID_NAME The function call failed because the
+ *                                     backend doesn't recognize the option
+ *                                     name.
+ * @retval ONNXIFI_STATUS_INVALID_POINTER The function call failed because any
+ *                                        of supplied pointers is invalid.
+ * @retval ONNXIFI_STATUS_UNSUPPORTED_ATTRIBUTE The function call failed
+ *                                              because supplied value is not
+ *                                              valid.
+ */
+ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI onnxGetOption(
+    const char* optionName,
+    char* optionValue,
+    size_t* optionValueLength);
+
+/**
+ * Provide a option name, set its value in string form.
+ * @param optionName - Name of the option
+ *
+ * @param optionValue - String value of the option
+ *
+ * @retval ONNXIFI_STATUS_SUCCESS The function call succeeded and the function
+ *                                returned because event transitioned to
+ *                                signalled state or the timeout was hit.
+ * @retval ONNXIFI_STATUS_INVALID_NAME The function call failed because the
+ *                                     backend doesn't recognize the option
+ *                                     name.
+ * @retval ONNXIFI_STATUS_INVALID_POINTER The function call failed because any
+ *                                        of supplied pointers is invalid.
+ * @retval ONNXIFI_STATUS_UNSUPPORTED_ATTRIBUTE The function call failed
+ *                                              because supplied value is not
+ *                                              valid.
+ */
+ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI onnxSetOption(
+    const char* optionName,
+    const char* optionValue);
 
 #ifdef __cplusplus
 } /* extern "C" */
