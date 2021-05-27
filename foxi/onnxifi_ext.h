@@ -135,6 +135,10 @@ typedef ONNXIFI_CHECK_RESULT onnxStatus
   (ONNXIFI_ABI* onnxReleaseTraceEventsFunction)(
     onnxTraceEventList* traceEvents);
 
+typedef ONNXIFI_CHECK_RESULT onnxStatus
+  (ONNXIFI_ABI* onnxGetCurrentBatchSizeFunction)(
+    int64_t* currentBatchSize);
+
 /**
  * A combination of onnxSetIO and onnxRunGraph, functionally equals to first run
  * onnxSetIO(graph, inputsCount, inputDescriptors, outputsCount,
