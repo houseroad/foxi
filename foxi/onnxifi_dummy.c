@@ -103,7 +103,10 @@ ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI onnxInitGraph(
     const void* onnxModel,
     uint32_t weightCount,
     const onnxTensorDescriptorV1* weightDescriptors,
-    onnxGraph* graph) {
+    onnxGraph* graph,
+    uint32_t maxSeqLength,
+    void* deferredWeightReader) {
+
   if (graph == NULL) {
     return ONNXIFI_STATUS_INVALID_POINTER;
   }
@@ -215,6 +218,8 @@ ONNXIFI_PUBLIC ONNXIFI_CHECK_RESULT onnxStatus ONNXIFI_ABI
 onnxWaitEventFor(onnxEvent event,
                  uint32_t timeoutMs,
                  onnxEventState* eventState,
-                 onnxStatus* eventStatus) {
+		  onnxStatus* eventStatus,
+		  char* message,
+		  size_t* messageLength) {
   return ONNXIFI_STATUS_SUCCESS;
 }

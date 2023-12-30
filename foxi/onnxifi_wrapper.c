@@ -761,7 +761,9 @@ ONNXIFI_PUBLIC onnxStatus ONNXIFI_ABI onnxInitGraph(
     const void* onnxModel,
     uint32_t weightsCount,
     const onnxTensorDescriptorV1* weightDescriptors,
-    onnxGraph* graph)
+    onnxGraph* graph,
+    uint32_t maxSeqLength,
+    void* deferredWeightReader)
 {
   if (graph == NULL) {
     return ONNXIFI_STATUS_INVALID_POINTER;
@@ -797,7 +799,9 @@ ONNXIFI_PUBLIC onnxStatus ONNXIFI_ABI onnxInitGraph(
     onnxModel,
     weightsCount,
     weightDescriptors,
-    &graph_wrapper->graph);
+    &graph_wrapper->graph,
+    maxSeqLength,
+    deferredWeightReader);
   switch (status) {
     case ONNXIFI_STATUS_SUCCESS:
     case ONNXIFI_STATUS_FALLBACK:
